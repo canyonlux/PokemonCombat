@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Sección para el primer Pokémon -->
+    <EditText
+        android:id="@+id/editTextPokemon1Nombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombre del Pokémon 1" />
+    <EditText
+        android:id="@+id/editTextPokemon1Hp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="HP Pokémon 1"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/editTextPokemon1Ataque"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ataque Pokémon 1"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/editTextPokemon1Defensa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Defensa Pokémon 1"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/editTextPokemon1AtaqueEspecial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ataque Especial Pokémon 1"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/editTextPokemon1DefensaEspecial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Defensa Especial Pokémon 1"
+        android:inputType="number" />
+
+
+    <!-- Sección para el segundo Pokémon -->
+    <EditText
+        android:id="@+id/editTextPokemon2Nombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Nombre del Pokémon 2" />
+    <EditText
+        android:id="@+id/editTextPokemon2Hp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="HP Pokémon 2"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/editTextPokemon2Ataque"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ataque Pokémon 2"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/editTextPokemon2Defensa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Defensa Pokémon 2"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/editTextPokemon2AtaqueEspecial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Ataque Especial Pokémon 2"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/editTextPokemon2DefensaEspecial"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Defensa Especial Pokémon 2"
+        android:inputType="number" />
+
+
+    <!-- Agrega más EditText para HP, Ataque, Defensa, etc. para el segundo Pokémon -->
+
+    <!-- Botón para iniciar el combate -->
+    <Button
+        android:id="@+id/buttonIniciarCombate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Iniciar Combate" />
+
+    <!-- Texto para mostrar los resultados del combate -->
+    <TextView
+        android:id="@+id/textViewResultado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Resultado del Combate" />
+</LinearLayout>
