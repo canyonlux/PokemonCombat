@@ -7,21 +7,20 @@ import androidx.lifecycle.ViewModel;
 import java.util.Random;
 
 public class PokemonViewModel extends ViewModel {
-    private MutableLiveData<Pokemon> pokemon1;
-    private MutableLiveData<Pokemon> pokemon2;
+    // LiveData para mantener el estado de los dos Pokémon.
+    private MutableLiveData<Pokemon> pokemon1 = new MutableLiveData<>();
+    private MutableLiveData<Pokemon> pokemon2 = new MutableLiveData<>();
 
+    // LiveData para actualizar el estado del combate en la UI.
     private MutableLiveData<String> estadoCombate = new MutableLiveData<>();
+    private Random random = new Random();
 
+    // Getter para obtener el estado actual del combate.
     public LiveData<String> getEstadoCombate() {
         return estadoCombate;
     }
-    private Random random = new Random();
 
-    public PokemonViewModel() {
-        pokemon1 = new MutableLiveData<>();
-        pokemon2 = new MutableLiveData<>();
-    }
-
+    // Getter y Setter para los Pokémon.
     public LiveData<Pokemon> getPokemon1() {
         return pokemon1;
     }
@@ -38,58 +37,44 @@ public class PokemonViewModel extends ViewModel {
         pokemon2.setValue(pokemon);
     }
 
-    // Método para iniciar el combate mejorado
+    // Método para iniciar el combate. Se alterna el turno entre los Pokémon.
     public void iniciarCombate() {
         if (pokemon1.getValue() != null && pokemon2.getValue() != null) {
-            Pokemon p1 = pokemon1.getValue();
-            Pokemon p2 = pokemon2.getValue();
-
-            realizarTurno(p1, p2);
-            if (p2.getHp() <= 0) {
-                estadoCombate.setValue(p2.getNombre() + " se ha debilitado!");
-                return; // Terminar el combate si uno se debilita
-            }
-
-            realizarTurno(p2, p1);
-            if (p1.getHp() <= 0) {
-                estadoCombate.setValue(p1.getNombre() + " se ha debilitado!");
-                return; // Terminar el combate si uno se debilita
-            }
-
-            pokemon1.setValue(p1);
-            pokemon2.setValue(p2);
+            realizarTurno(pokemon1.getValue(), pokemon2.getValue());
+            realizarTurno(pokemon2.getValue(), pokemon1.getValue());
+            // Verificar el estado de los Pokémon después de cada turno.
+            verificarEstadoPokemon();
         }
     }
 
-    // Método para realizar un turno de combate
+    // Verificar si alguno de los Pokémon se ha debilitado.
+    private void verificarEstadoPokemon() {
+        Pokemon p1 = pokemon1.getValue();
+        Pokemon p2 = pokemon2.getValue();
+
+        if (p1.getHp() <= 0 || p2.getHp() <= 0) {
+            String perdedor = p1.getHp() <= 0 ? p1.getNombre() : p2.getNombre();
+            estadoCombate.setValue(perdedor + " se ha debilitado! El juego ha terminado.");
+        }
+    }
+
+    // Método para realizar un turno de combate.
     private void realizarTurno(Pokemon atacante, Pokemon defensor) {
-        // Probabilidad de golpe especial
-        if (random.nextInt(100) < 20) { // 20% de probabilidad
+        // Probabilidad de golpe especial.
+        if (random.nextInt(100) < 20) { // 20% de probabilidad.
             realizarGolpeEspecial(atacante, defensor);
         } else {
             defensor.recibirDaño(atacante.getAtaque(), atacante.getAtaqueEspecial());
         }
-
-        // Probabilidad de defensa especial
-        if (random.nextInt(100) < 15) { // 15% de probabilidad
-            realizarDefensaEspecial(defensor);
-        }
+        pokemon1.setValue(pokemon1.getValue());
+        pokemon2.setValue(pokemon2.getValue());
     }
 
-    // Método para realizar un golpe especial
+    // Método para realizar un golpe especial.
     private void realizarGolpeEspecial(Pokemon atacante, Pokemon defensor) {
-        int dañoExtra = 50;
+        int dañoExtra = 50; // Valor de ejemplo para el daño extra.
         defensor.recibirDaño(atacante.getAtaque() + dañoExtra, atacante.getAtaqueEspecial() + dañoExtra);
+
         estadoCombate.setValue(atacante.getNombre() + " ha realizado un golpe especial!");
-
-    }
-
-    // Método para realizar una defensa especial
-    private void realizarDefensaEspecial(Pokemon defensor) {
-        int recuperación = 30;
-        defensor.setHp(Math.min(defensor.getHp() + recuperación, 999));
-        estadoCombate.setValue(defensor.getNombre() + " ha realizado una defensa especial!");
-        // Otras lógicas de la defensa especial
     }
 }
-

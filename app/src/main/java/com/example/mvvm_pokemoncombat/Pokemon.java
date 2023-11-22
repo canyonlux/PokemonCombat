@@ -8,7 +8,7 @@ public class Pokemon {
     private int ataqueEspecial;
     private int defensaEspecial;
 
-    public Pokemon(String nombre, int hp, int ataque) {
+    public Pokemon(String nombre, int hp, int ataque, int defensa, int ataqueEspecial, int defensaEspecial) {
         this.nombre = nombre;
         this.hp = hp;
         this.ataque = ataque;
@@ -16,6 +16,7 @@ public class Pokemon {
         this.ataqueEspecial = ataqueEspecial;
         this.defensaEspecial = defensaEspecial;
     }
+
 
     // Getters y setters para cada propiedad
     public String getNombre() {

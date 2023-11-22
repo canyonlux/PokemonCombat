@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -11,7 +11,11 @@
         android:id="@+id/editTextPokemon1Nombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nombre del Pokémon 1" />
+        android:autoText="false"
+        android:hint="Nombre del Pokémon 1"
+        android:textColor="#090909"
+        android:textColorHighlight="#101010" />
+
     <EditText
         android:id="@+id/editTextPokemon1Hp"
         android:layout_width="match_parent"
@@ -54,6 +58,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Nombre del Pokémon 2" />
+
     <EditText
         android:id="@+id/editTextPokemon2Hp"
         android:layout_width="match_parent"
@@ -90,8 +95,6 @@
         android:inputType="number" />
 
 
-    <!-- Agrega más EditText para HP, Ataque, Defensa, etc. para el segundo Pokémon -->
-
     <!-- Botón para iniciar el combate -->
     <Button
         android:id="@+id/buttonIniciarCombate"
@@ -100,6 +103,12 @@
         android:text="Iniciar Combate" />
 
     <!-- Texto para mostrar los resultados del combate -->
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/pokemon" />
+
     <TextView
         android:id="@+id/textViewResultado"
         android:layout_width="match_parent"

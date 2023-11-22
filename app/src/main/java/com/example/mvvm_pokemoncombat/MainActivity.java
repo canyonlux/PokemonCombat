@@ -8,6 +8,7 @@ import com.example.mvvm_pokemoncombat.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private PokemonViewModel viewModel;
+    private boolean esPrimerCombate = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -15,43 +16,49 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        // Inicializa el PokemonViewModel
+        // Inicializar el ViewModel.
         viewModel = new ViewModelProvider(this).get(PokemonViewModel.class);
-
+// Configurar el listener para el botón de inicio de combate.
         binding.buttonIniciarCombate.setOnClickListener(v -> {
-            try {
-                Pokemon pokemon1 = crearPokemonDesdeUI(
-                        binding.editTextPokemon1Nombre.getText().toString(),
-                        Integer.parseInt(binding.editTextPokemon1Hp.getText().toString()),
-                        Integer.parseInt(binding.editTextPokemon1Ataque.getText().toString()),
-                        Integer.parseInt(binding.editTextPokemon1Defensa.getText().toString()),
-                        Integer.parseInt(binding.editTextPokemon1AtaqueEspecial.getText().toString()),
-                        Integer.parseInt(binding.editTextPokemon1DefensaEspecial.getText().toString())
-                );
+            if (validarEntrada()) {
+                if (esPrimerCombate) {
+                    Pokemon pokemon1 = crearPokemonDesdeUI(
+                            binding.editTextPokemon1Nombre.getText().toString(),
+                            Integer.parseInt(binding.editTextPokemon1Hp.getText().toString()),
+                            Integer.parseInt(binding.editTextPokemon1Ataque.getText().toString()),
+                            Integer.parseInt(binding.editTextPokemon1Defensa.getText().toString()),
+                            Integer.parseInt(binding.editTextPokemon1AtaqueEspecial.getText().toString()),
+                            Integer.parseInt(binding.editTextPokemon1DefensaEspecial.getText().toString())
+                    );
 
-                Pokemon pokemon2 = crearPokemonDesdeUI(
-                        binding.editTextPokemon2Nombre.getText().toString(),
-                        Integer.parseInt(binding.editTextPokemon2Hp.getText().toString()),
-                        Integer.parseInt(binding.editTextPokemon2Ataque.getText().toString()),
-                        Integer.parseInt(binding.editTextPokemon2Defensa.getText().toString()),
-                        Integer.parseInt(binding.editTextPokemon2AtaqueEspecial.getText().toString()),
-                        Integer.parseInt(binding.editTextPokemon2DefensaEspecial.getText().toString())
-                );
+                    Pokemon pokemon2 = crearPokemonDesdeUI(
+                            binding.editTextPokemon2Nombre.getText().toString(),
+                            Integer.parseInt(binding.editTextPokemon2Hp.getText().toString()),
+                            Integer.parseInt(binding.editTextPokemon2Ataque.getText().toString()),
+                            Integer.parseInt(binding.editTextPokemon2Defensa.getText().toString()),
+                            Integer.parseInt(binding.editTextPokemon2AtaqueEspecial.getText().toString()),
+                            Integer.parseInt(binding.editTextPokemon2DefensaEspecial.getText().toString())
+                    );
 
-                viewModel.setPokemon1(pokemon1);
-                viewModel.setPokemon2(pokemon2);
-
+                    viewModel.setPokemon1(pokemon1);
+                    viewModel.setPokemon2(pokemon2);
+                    esPrimerCombate = false;
+                }
                 viewModel.iniciarCombate();
-            } catch (NumberFormatException e) {
-                // Manejo de errores, por ejemplo, mostrar un mensaje de error al usuario
             }
         });
 
+        viewModel.getEstadoCombate().observe(this, estado -> {
+            binding.textViewResultado.setText(estado);
+            if (estado.contains("se ha debilitado")) {
 
-        // Observar los LiveData de PokemonViewModel
+            }
+        });
+// Observar los cambios en los datos de los Pokémon.
         viewModel.getPokemon1().observe(this, this::actualizarUIPokemon1);
         viewModel.getPokemon2().observe(this, this::actualizarUIPokemon2);
     }
+
 
     // Método para validar la entrada del usuario
     private boolean validarEntrada() {
@@ -71,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
 
-        // Validar el nombre del segundo Pokémon
+        // Validar el nombre del segundo PokémonsetOnClickListener
         if (binding.editTextPokemon2Nombre.getText().toString().trim().isEmpty()) {
             // Mostrar algún mensaje de error o enfocar el campo de texto
             return false;
@@ -87,15 +94,15 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
 
-        // Si llegamos aquí, significa que todas las entradas son válidas
         return true;
     }
 
 
     // Método para crear un objeto Pokemon a partir de la UI
-    private Pokemon crearPokemonDesdeUI(String nombre, int hp, int ataque, int i, int parseInt, int anInt) {
-        return new Pokemon(nombre, hp, ataque);
+    private Pokemon crearPokemonDesdeUI(String nombre, int hp, int ataque, int defensa, int ataqueEspecial, int defensaEspecial) {
+        return new Pokemon(nombre, hp, ataque, defensa, ataqueEspecial, defensaEspecial);
     }
+
 
     // Método para actualizar la UI con los datos del primer Pokemon
     private void actualizarUIPokemon1(Pokemon pokemon) {
@@ -106,4 +113,5 @@ public class MainActivity extends AppCompatActivity {
     private void actualizarUIPokemon2(Pokemon pokemon) {
         binding.textViewResultado.append("\nPokemon 2: " + pokemon.getNombre() + " HP: " + pokemon.getHp());
     }
+
 }
